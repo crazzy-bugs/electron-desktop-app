@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Lock, BarChart2, Zap, MoreHorizontal } from 'lucide-react';
+import { Shield, Lock, BarChart2,ShieldCheck,Contact} from 'lucide-react';
 
 export default function Sidebar() {
   // State to manage the active section
@@ -25,45 +25,30 @@ export default function Sidebar() {
             </a>
           </li>
           <li
-            className={activeSection === 'protection' ? 'active' : ''}
-            onClick={() => handleClick('protection')}
+            className={activeSection === 'quarantinedfiles' ? 'active' : ''}
+            onClick={() => handleClick('quarantinedfiles')}
           >
-            <a href="#protection">
+            <a href="#quarantinedfiles">
               <Lock /> <span>QUARANTINED FILES</span>
             </a>
           </li>
           <li
-            className={activeSection === 'privacy' ? 'active' : ''}
-            onClick={() => handleClick('privacy')}
+            className={activeSection === 'antivirus' ? 'active' : ''}
+            onClick={() => handleClick('antivirus')}
           >
-            <a href="#privacy">
-              <Lock /> <span>PRIVACY</span>
+            <a href="#antivirus">
+              <ShieldCheck /> <span>ANTIVIRUS</span>
             </a>
           </li>
           <li
-            className={activeSection === 'performance' ? 'active' : ''}
-            onClick={() => handleClick('performance')}
+            className={activeSection === 'support' ? 'active' : ''}
+            onClick={() => handleClick('support')}
           >
-            <a href="#performance">
-              <BarChart2 /> <span>PERFORMANCE</span>
+            <a href="#support">
+              <Contact /> <span>SUPPORT</span>
             </a>
           </li>
-          <li
-            className={activeSection === 'metaprotect' ? 'active' : ''}
-            onClick={() => handleClick('metaprotect')}
-          >
-            <a href="#metaprotect">
-              <Zap /> <span>metaProtect</span>
-            </a>
-          </li>
-          <li
-            className={activeSection === 'more' ? 'active' : ''}
-            onClick={() => handleClick('more')}
-          >
-            <a href="#more">
-              <MoreHorizontal /> <span>MORE</span>
-            </a>
-          </li>
+      
         </ul>
       </nav>
 
