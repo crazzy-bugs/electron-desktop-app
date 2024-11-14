@@ -1,15 +1,31 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
-import Status from './components/StatusComponents/StatusOption';
-import Quarantined from './components/QuarantinedComponents/QuarantinedOption';
-import Antivirus from './components/AntivirusComponents/AntivirusOption';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import './styles/App.css';
+
+// pages
+import Status from './pages/status';
+import Quarantined from './pages/quarantined';
+import Antivirus from './pages/antivirus';
+import Support from './pages/support';
+
+// components
+import Sidebar from './components/partials/Sidebar';
+import Header from './components/partials/Header';
 
 export default function App() {
   return (
     <Router>
-      <Status/>
-      {/* <Quarantined/> */}
-      {/* <Antivirus/> */}
+      <div className="app-container">
+        <Sidebar />
+        <div className="main-content">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Status />} />
+            <Route path="/quarantined" element={<Quarantined />} />
+            <Route path="/antivirus" element={<Antivirus />} />
+            <Route path="/support" element={<Support />} />
+          </Routes>
+        </div>
+      </div>
     </Router>
   );
 }

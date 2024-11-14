@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Shield, Lock, BarChart2,ShieldCheck,Contact} from 'lucide-react';
 
 export default function Sidebar() {
   // State to manage the active section
   const [activeSection, setActiveSection] = useState('status');
+  console.log(window.location.pathname);
 
   const handleClick = (section:any) => {
     setActiveSection(section);
@@ -20,33 +22,36 @@ export default function Sidebar() {
             className={activeSection === 'status' ? 'active' : ''}
             onClick={() => handleClick('status')}
           >
-            <a href="#status">
+            <Link to="/">
+              <BarChart2 /> <span>STATUS</span>
+            </Link>
+            {/* <a href="/status">
               <Shield /> <span>STATUS</span>
-            </a>
+            </a> */}
           </li>
           <li
             className={activeSection === 'quarantinedfiles' ? 'active' : ''}
             onClick={() => handleClick('quarantinedfiles')}
           >
-            <a href="#quarantinedfiles">
+            <Link to="/quarantined">
               <Lock /> <span>QUARANTINED FILES</span>
-            </a>
+            </Link>
           </li>
           <li
             className={activeSection === 'antivirus' ? 'active' : ''}
             onClick={() => handleClick('antivirus')}
           >
-            <a href="#antivirus">
+            <Link to="/antivirus">
               <ShieldCheck /> <span>ANTIVIRUS</span>
-            </a>
+            </Link>
           </li>
           <li
             className={activeSection === 'support' ? 'active' : ''}
             onClick={() => handleClick('support')}
           >
-            <a href="#support">
+            <Link to="/support">
               <Contact /> <span>SUPPORT</span>
-            </a>
+            </Link>
           </li>
       
         </ul>
