@@ -27,9 +27,8 @@ export default function Dashboard() {
     ],
   };
 
-  // Example data for Files Scanned Over Time Line Chart
   const scannedFilesData = {
-    labels: ['2024-10-01', '2024-10-02', '2024-10-03'], // Example dates
+    labels: ['2024-10-01', '2024-10-02', '2024-10-03'], 
     datasets: [
       {
         label: 'Files Scanned',
