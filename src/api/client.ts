@@ -60,6 +60,33 @@ class ApiClient {
   static deleteScan(id: number) {
     return handleRequest(`/scans/${id}`, 'DELETE');
   }
+
+  // Crud for notifications
+  // 6. Add a new notification
+  static addNotification(notificationData: any) {
+    return handleRequest('/notifications', 'POST', notificationData);
+  }
+
+  // 7. Get all notifications
+  static getAllNotifications() {
+    return handleRequest('/notifications', 'GET');
+  }
+
+  // 8. Get a notification by ID
+  static getNotificationById(id: number) {
+    return handleRequest(`/notifications/${id}`, 'GET');
+  }
+
+  // 9. Update a notification
+  static updateNotification(id: number, updatedData: any) {
+    return handleRequest(`/notifications/${id}`, 'PUT', updatedData);
+  }
+
+  // 10. Delete a notification by ID
+  static deleteNotification(id: number) {
+    return handleRequest(`/notifications/${id}`, 'DELETE');
+  }
+  
 }
 
 export default ApiClient;

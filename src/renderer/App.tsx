@@ -24,7 +24,8 @@ export default function App() {
             <Route path="/" element={<Status />} />
             <Route path="/quarantined" element={<Quarantined />} />
             <Route path="/antivirus" element={<Antivirus />} />
-            <Route path="/support" element={<Test />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/test" element={<Test />} />
           </Routes>
         </div>
       </div>
