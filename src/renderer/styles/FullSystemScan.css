@@ -198,3 +198,19 @@
     font-weight: bold;
     color: #10b981;
   }
+
+  .card-container {
+    display: flex;
+    gap: 24px; /* Space between the cards */
+    flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+  }
+  
+  .main-card {
+    flex: 1;
+  }
+  
+  .card {
+    flex: 1; /* Allows the cards to be of equal width */
+    min-width: 300px; /* Ensures cards don't shrink too much */
+  }
+  

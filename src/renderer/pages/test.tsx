@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ApiClient from '../../api/client';
+import showNotification from '../../utils/notification';
 
 interface Scan {
   id: number;
@@ -57,7 +58,10 @@ const Test = () => {
     <div style={{ padding: '20px', fontFamily: 'Montserrat' }}>
       <h1>Scan Results</h1>
       <button
-        onClick={handleStartScan}
+        onClick={()=>{
+          handleStartScan
+          showNotification('Scan Started', 'The scan has started successfully.');
+        }}
         style={{
           backgroundColor: '#4A2328',
           color: '#fff',

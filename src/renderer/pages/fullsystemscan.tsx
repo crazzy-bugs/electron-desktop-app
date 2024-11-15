@@ -115,28 +115,60 @@ export default function FullSystemScan() {
 
   return (
     <div className="container">
-      <Card className="main-card">
-        <CardHeader>
-          <CardTitle className="card-title">
-            <Shield className="icon" />
-            Full System Scan
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="card-content">
-            <div className="flex-between">
-              <div className="flex-center">
-                <Clock className="icon-small muted" />
-                <span className="text-small muted">Elapsed Time:</span>
-                <span className="text-small bold">{`${minutes}m ${seconds}s`}</span>
+      <div className="card-container">
+        <Card className="main-card">
+          <CardHeader>
+            <CardTitle className="card-title">
+              <Shield className="icon" />
+              Full System Scan
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="card-content">
+              <div className="flex-between">
+                <div className="flex-center">
+                  <Clock className="icon-small muted" />
+                  <span className="text-small muted">Elapsed Time:</span>
+                  <span className="text-small bold">{`${minutes}m ${seconds}s`}</span>
+                </div>
+                <CommunityScore detectedCount={detectedCount} totalCount={totalCount} />
               </div>
-              <CommunityScore detectedCount={detectedCount} totalCount={totalCount} />
+              <Progress value={scanResult.overallProgress} className="progress-bar" />
+              <div className="text-small muted text-right">{scanResult.overallProgress}% Complete</div>
             </div>
-            <Progress value={scanResult.overallProgress} className="progress-bar" />
-            <div className="text-small muted text-right">{scanResult.overallProgress}% Complete</div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="card-content">
+            <div className="summary-list">
+              <div className="summary-item">
+                <div className="flex-center">
+                  <HardDrive className="icon-small" />
+                  <span className="bold">Total Items Scanned</span>
+                </div>
+                <span>123,456</span>
+              </div>
+              
+              <div className="summary-item">
+                <div className="flex-center">
+                  <AlertTriangle className="icon-small" />
+                  <span className="bold">Threats Found</span>
+                </div>
+                <Badge variant="destructive">{detectedCount}</Badge>
+              </div>
+              
+              <div className="summary-item">
+                <div className="flex-center">
+                  <Laptop className="icon-small" />
+                  <span className="bold">Scan Engine Version</span>
+                </div>
+                <span>2.0.1</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       <Card>
         <CardHeader>
@@ -170,35 +202,6 @@ export default function FullSystemScan() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardContent className="card-content">
-          <div className="summary-list">
-            <div className="summary-item">
-              <div className="flex-center">
-                <HardDrive className="icon-small" />
-                <span className="bold">Total Items Scanned</span>
-              </div>
-              <span>123,456</span>
-            </div>
-            
-            <div className="summary-item">
-              <div className="flex-center">
-                <AlertTriangle className="icon-small" />
-                <span className="bold">Threats Found</span>
-              </div>
-              <Badge variant="destructive">{detectedCount}</Badge>
-            </div>
-            
-            <div className="summary-item">
-              <div className="flex-center">
-                <Laptop className="icon-small" />
-                <span className="bold">Scan Engine Version</span>
-              </div>
-              <span>2.0.1</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
      <div style={{display:"flex",justifyContent:"end"}}>
      <button style={{fontFamily:"Montserrat",backgroundColor:'#f9f9f9', padding:"6px", fontSize:"14px",color:"black",border:"none",borderRadius:"4px",width:"70px", display:"flex",alignItems:"center",cursor:"pointer"}} onClick={() => navigate('/test')}><ChevronLeft/>Back</button>
      </div>
