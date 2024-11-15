@@ -77,7 +77,7 @@
 }
 
 .chat-header {
-  background-color: #3b82f6;
+  background-color: #f12840;
   color: #fff;
   padding: 5px 15px;
   display: flex;
@@ -152,7 +152,7 @@
 
 .chat-input button {
   padding: 10px 20px;
-  background-color: #3b82f6;
+  background-color: #f12840;
   color: #fff;
   border: none;
   border-radius: 20px;
@@ -161,7 +161,7 @@
 }
 
 .chat-input button:hover {
-  background-color: #1e3a8a;
+  background-color: #680712;
 }
 
 @keyframes fadeIn {

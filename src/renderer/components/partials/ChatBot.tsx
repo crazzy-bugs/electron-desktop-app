@@ -62,13 +62,14 @@ const ChatBot: React.FC = () => {
           </div>
           <div className="chat-input">
             <input
+            style={{fontFamily:"Montserrat,sans"}} 
               type="text"
               placeholder="Type your query here..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             />
-            <button onClick={handleSendMessage}>Send</button>
+            <button style={{fontFamily:"Montserrat,sans"}} onClick={handleSendMessage}>Send</button>
           </div>
         </div>
       )}
