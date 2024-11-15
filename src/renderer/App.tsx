@@ -11,6 +11,8 @@ import Support from './pages/support';
 import Sidebar from './components/partials/Sidebar';
 import Header from './components/partials/Header';
 
+import Test from './pages/test';
+
 export default function App() {
   return (
     <Router>
@@ -22,7 +24,7 @@ export default function App() {
             <Route path="/" element={<Status />} />
             <Route path="/quarantined" element={<Quarantined />} />
             <Route path="/antivirus" element={<Antivirus />} />
-            <Route path="/support" element={<Support />} />
+            <Route path="/support" element={<Test />} />
           </Routes>
         </div>
       </div>
