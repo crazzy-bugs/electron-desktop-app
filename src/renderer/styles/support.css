@@ -1,6 +1,6 @@
 .support-container {
     padding: 20px;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: #f9f9f9;
     color: #333;
     border-radius: 10px;
@@ -9,6 +9,7 @@
   .content {
     /* max-width: 900px; */
     margin: 0 auto;
+    background-color: #f9f9f9;
   }
   
   h1, h2 {
