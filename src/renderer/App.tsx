@@ -12,6 +12,7 @@ import Sidebar from './components/partials/Sidebar';
 import Header from './components/partials/Header';
 
 import Test from './pages/test';
+import FullSystemScan from './pages/fullsystemscan';
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/antivirus" element={<Antivirus />} />
             <Route path="/support" element={<Support />} />
             <Route path="/test" element={<Test />} />
+            <Route path="/startscan" element={<FullSystemScan />} />
           </Routes>
         </div>
       </div>
