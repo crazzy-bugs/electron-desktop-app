@@ -130,8 +130,9 @@ const Sidebar: React.FC = () => {
           padding: 20px 0;
           display: flex;
           flex-direction: column;
-          height: 100vh;
+          height: 90vh;
           font-size: 15px;
+          border-radius : 0px 0px 120px 0px;
         }
 
         .logo {

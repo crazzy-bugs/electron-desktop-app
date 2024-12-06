@@ -1,100 +1,92 @@
-import { Bar, Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement } from 'chart.js';
+import React from 'react';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  LineElement,
-  PointElement,
-);
-
-export default function Dashboard() {
-  const fileSafetyData = {
-    labels: ['Safe', 'Unsafe'],
-    datasets: [
-      {
-        label: 'File Safety',
-        data: [80, 20],
-        backgroundColor: ['#4CAF50', '#F44336'],
-        borderColor: ['#388E3C', '#D32F2F'],
-        borderWidth: 1,
-        barThickness: 20,
-      },
-    ],
-  };
-
-  const scannedFilesData = {
-    labels: ['2024-10-01', '2024-10-02', '2024-10-03'], 
-    datasets: [
-      {
-        label: 'Files Scanned',
-        data: [10, 15, 30], 
-        fill: false,
-        borderColor: '#1976D2',
-        borderWidth: 2,
-        tension: 0.5, // Smooth the line
-      },
-    ],
-  };
-
+const BarGraph: React.FC = () => {
   return (
-    <div className="dashboard" style={{ backgroundColor: 'white', padding: '20px', marginBottom: '20px', height: '200px', borderRadius: '10px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-around', gap: '20px' }}>
-        <div style={{ width: '48%', minWidth: '300px', height: '150px' }}>
-          <h3>File Safety Count</h3>
-          <Bar 
-            data={fileSafetyData} 
-            options={{
-              responsive: true,
-              scales: {
-                x: {
-                  grid: {
-                    display: false,
-                  },
-                },
-                y: {
-                  grid: {
-                    display: false,
-                  },
-                },
-              },
-            }} 
-          />
+    <div className="pie-chart-container">
+      <div className="title">Threat Distribution by Type</div>
+      <div className="pie-chart"></div>
+      <div className="legend">
+        <div className="legend-item">
+          <div className="legend-color" style={{ backgroundColor: 'var(--color-malware)' }}></div>
+          Malware (40%)
         </div>
-        <div style={{ width: '48%', minWidth: '300px', height: '150px' }}>
-          <h3>Files Scanned Over Time</h3>
-          <Line
-            data={scannedFilesData}
-            options={{
-              responsive: true,
-              scales: {
-                x: {
-                  grid: {
-                    display: false,
-                  },
-                },
-                y: {
-                  grid: {
-                    display: false,
-                  },
-                },
-              },
-            }}
-          />
+        <div className="legend-item">
+          <div className="legend-color" style={{ backgroundColor: 'var(--color-phishing)' }}></div>
+          Phishing (30%)
+        </div>
+        <div className="legend-item">
+          <div className="legend-color" style={{ backgroundColor: 'var(--color-ransomware)' }}></div>
+          Ransomware (20%)
+        </div>
+        <div className="legend-item">
+          <div className="legend-color" style={{ backgroundColor: 'var(--color-other)' }}></div>
+          Other (10%)
         </div>
       </div>
+      <style>
+        {`
+         :root {
+   --color-malware: #FF4500; /* OrangeRed */
+--color-phishing: #FF6347; /* Tomato Red */
+--color-ransomware: #FFD700; /* Golden Yellow */
+--color-other: #32CD32; /* Lime Green */
 
-      <style>{`
-        @media (min-width: 768px) and (max-width: 1600px) {
-          .dashboard {
-            height: 300px;
-          }
+
+
         }
-      `}</style>
+
+        .pie-chart-container {
+            width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 320px;
+        }
+
+        .pie-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--color-malware) 0deg 144deg,
+                var(--color-phishing) 144deg 252deg,
+                var(--color-ransomware) 252deg 324deg,
+                var(--color-other) 324deg 360deg
+            );
+            margin: 0 auto 20px;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            border-radius: 3px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        `}
+      </style>
     </div>
   );
-}
+};
+
+export default BarGraph;

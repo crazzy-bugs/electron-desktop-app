@@ -1,116 +1,136 @@
 import React from "react";
 
 const RecentFileScanned = () => {
-  const transactions = [
-    { id: 1, name: "document.txt", date: "Jul 12th 2024", status: "Safe", icon: "📄" },
-    { id: 2, name: "game.exe", date: "Jul 12th 2024", status: "Infected", icon: "🎮" },
-    { id: 3, name: "photo.png", date: "Jul 12th 2024", status: "Safe", icon: "🖼️" },
-    { id: 4, name: "video.mp4", date: "Jul 12th 2024", status: "Safe", icon: "🎥" },
-    { id: 5, name: "archive.zip", date: "Jul 12th 2024", status: "Infected", icon: "📦" },
-    { id: 6, name: "presentation.ppt", date: "Jul 12th 2024", status: "Safe", icon: "📊" },
+  const scans = [
+    { id: 1, name: "document.txt", date: "Jul 12th 2024", status: "Safe" },
+    { id: 2, name: "game.exe", date: "Jul 12th 2024", status: "Infected" },
+    { id: 3, name: "photo.png", date: "Jul 12th 2024", status: "Safe" },
+    { id: 4, name: "video.mp4", date: "Jul 12th 2024", status: "Safe" },
+    { id: 5, name: "archive.zip", date: "Jul 12th 2024", status: "Infected" },
+    { id: 6, name: "presentation.ppt", date: "Jul 12th 2024", status: "Safe" },
   ];
 
   return (
-    <div className="transaction-card">
+    <>
+    <div className="scanning-card">
       <h2>Recent File Scanned</h2>
-      {transactions.map((transaction) => (
-        <div className="transaction-item" key={transaction.id}>
-          <div className="transaction-info">
-            <span className="transaction-icon">{transaction.icon}</span>
-            <div className="transaction-details">
-              <span>{transaction.name}</span>
-              <small>{transaction.date}</small>
+      <div className="scanning-list">
+        {scans.map((scan) => (
+          <div className="scanning-item" key={scan.id}>
+            <div className="scanning-info">
+              <div className="scanning-details">
+                <span>{scan.name}</span>
+                <small>{scan.date}</small>
+              </div>
+            </div>
+            <div
+              className={`scanning-status ${
+                scan.status === "Safe" ? "status-safe" : "status-infected"
+              }`}
+            >
+              {scan.status}
             </div>
           </div>
-          <div
-            className={`transaction-status ${
-              transaction.status === "Completed" ? "status-completed" : "status-pending"
-            }`}
-          >
-            {transaction.status}
-          </div>
-        </div>
-      ))}
-<style>{`
-*{
-    font-family: Montserrat, sans-serif;
-    overflow-y: hidden;
-}
-.transaction-card {
-  background: #fff;
-  border-radius: 12px;
-//   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 360px;
-  padding: 16px;
-  font-family: Arial, sans-serif;
-  margin-bottom: 10px;
-}
-
-.transaction-card h2 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 12px;
-}
-
-.transaction-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #eaeaea;
-}
-
-.transaction-item:last-child {
-  border-bottom: none;
+        ))}
+      </div>
+      
+      <style>{`
+        * {
+          font-family: Montserrat, sans-serif;
+          overflow-y: hidden;
+        }
+        .scanning-card {
+          background: #fff;
+          border-radius: 12px;
+          width: 360px;
+          padding: 30px;
+          margin-bottom: 10px;
+          height: 300px;
+          display: flex;
+          flex-direction: column;
+        }
+        .scanning-card h2 {
+          margin: 0;
+          font-size: 18px;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 12px;
+          position: sticky;
+          top: 0;
+          background: #fff;
+          z-index: 1;
+          padding-top: 8px;
+        }
+        .scanning-list {
+          overflow-y: auto;
+          max-height: 240px; /* Adjust the height of the scrollable area */
+        }
+          /* Styling the scrollbar */
+.scanning-list::-webkit-scrollbar {
+  width: 0px; /* Thin scrollbar width */
 }
 
-.transaction-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.scanning-list::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray background */
+  border-radius: 10px; /* Rounded track corners */
 }
 
-.transaction-icon {
-  font-size: 24px;
+.scanning-list::-webkit-scrollbar-thumb {
+  background: #888; /* Gray thumb */
+  border-radius: 10px; /* Rounded thumb corners */
 }
 
-.transaction-details {
-  display: flex;
-  flex-direction: column;
+.scanning-list::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker gray on hover */
 }
-
-.transaction-details span {
-  font-size: 14px;
-  color: #333;
-}
-
-.transaction-details small {
-  font-size: 12px;
-  color: #888;
-}
-
-.transaction-status {
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 12px;
-}
-
-.status-completed {
-  color: #fff;
-  background-color: #4caf50;
-}
-
-.status-pending {
-  color: #fff;
-  background-color: #ff9800;
-}
-`}</style>
+        .scanning-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 12px 0;
+          border-bottom: 1px solid #eaeaea;
+        }
+        .scanning-item:last-child {
+          border-bottom: none;
+        }
+        .scanning-info {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .scanning-details {
+          display: flex;
+          flex-direction: column;
+        }
+        .scanning-details span {
+          font-size: 15px;
+          color: #333;
+          font-weight: 500;
+        }
+        .scanning-details small {
+          font-size: 12px;
+          color: #888;
+        }
+        .scanning-status {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+          font-weight: 600;
+          padding: 6px 12px;
+          border-radius: 12px;
+          text-transform: uppercase;
+        }
+        .status-safe {
+          color: #fff;
+          background-color: #4caf50; /* Green */
+        }
+        .status-infected {
+          color: #fff;
+          background-color: #f44336; /* Red */
+        }
+      `}</style>
     </div>
+    </>
   );
 };
 
