@@ -42,51 +42,29 @@ class ApiClient {
   }
 
   // 2. Get all scan results
-  static getAllScans() {
-    return handleRequest('/scans', 'GET');
+  static getScans(page: number, limit: number) {
+    return handleRequest(`/scans?limit=${limit}&page=${page}`, 'GET');
   }
 
-  // 3. Get a scan by ID
-  static getScanById(id: number) {
-    return handleRequest(`/scans/${id}`, 'GET');
+  // Add antivirus
+  static addAntivirus(antivirusData: any) {
+    return handleRequest('/antiviruses', 'POST', antivirusData);
   }
 
-  // 4. Update a scan result
-  static updateScan(id: number, updatedData: any) {
-    return handleRequest(`/scans/${id}`, 'PUT', updatedData);
+  // Get all antivirus
+  static getAntiviruses() {
+    return handleRequest('/antiviruses', 'GET');
   }
 
-  // 5. Delete a scan by ID
-  static deleteScan(id: number) {
-    return handleRequest(`/scans/${id}`, 'DELETE');
+  // Delete antivirus
+  static deleteAntivirus(id: number) {
+    return handleRequest(`/antiviruses/${id}`, 'DELETE');
   }
 
-  // Crud for notifications
-  // 6. Add a new notification
-  static addNotification(notificationData: any) {
-    return handleRequest('/notifications', 'POST', notificationData);
-  }
-
-  // 7. Get all notifications
-  static getAllNotifications() {
+  // get all notifications
+  static getNotifications() {
     return handleRequest('/notifications', 'GET');
   }
-
-  // 8. Get a notification by ID
-  static getNotificationById(id: number) {
-    return handleRequest(`/notifications/${id}`, 'GET');
-  }
-
-  // 9. Update a notification
-  static updateNotification(id: number, updatedData: any) {
-    return handleRequest(`/notifications/${id}`, 'PUT', updatedData);
-  }
-
-  // 10. Delete a notification by ID
-  static deleteNotification(id: number) {
-    return handleRequest(`/notifications/${id}`, 'DELETE');
-  }
-  
 }
 
 export default ApiClient;

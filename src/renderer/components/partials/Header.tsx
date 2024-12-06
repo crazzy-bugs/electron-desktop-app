@@ -1,37 +1,96 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Search, Bell, User, PlusCircle } from 'lucide-react';
+import ApiClient from '../../../api/client';
 
 const Header: React.FC = () => {
+  const [showNotifications, setShowNotifications] = useState(false);
+  interface Notification {
+    id: number;
+    title: string;
+    body: string;
+    is_read: number;
+    created_at: string;
+  }
+
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  const fetchNotifications = async () => {
+    try {
+      const data = await fetch(
+        'http://localhost:3000/notifications?limit=4',
+      ).then((response) => response.json());
+      setNotifications(data);
+      console.log('Notifications:', data);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchNotifications();
+  }, []);
+
   return (
     <header className="header-bar">
       {/* Left Section */}
       {/* Updated at 2021-10-06 15:00:00 */}
       {/* Center Section */}
-      <div className="header-center">
-       
-      </div>
+      <div className="header-center"></div>
 
       {/* Right Section */}
       <div className="header-right">
-        <button className="icon-button">
+        <button
+          className="icon-button"
+          onClick={() => setShowNotifications(true)}
+        >
           <Bell />
         </button>
-        <button className="add-button">
-          <PlusCircle className="add-icon" />
-          Add new product
-        </button>
+        {showNotifications && (
+          <div className="notification-modal">
+            <div className="notification-modal-content">
+              <button
+                className="close-button"
+                onClick={() => setShowNotifications(false)}
+              >
+                ×
+              </button>
+              <h2>Notification History</h2>
+              {notifications.length > 0 ? (
+                notifications.map((notification, index) => (
+                  <div key={index} className="notification-item">
+                    <h3>{notification.title}</h3>
+                    <p>{notification.body}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No notifications yet</p>
+              )}
+            </div>
+          </div>
+        )}
+        <Link to="/add-av">
+          <button type="button" className="add-button">
+            <PlusCircle className="add-icon" />
+            Add new Antivirus
+          </button>
+        </Link>
       </div>
 
       {/* Styles */}
       <style>{`
+      .notification-modal-content {
+        background: white;
+        max-height: 500px;
+        overflow-y: auto;
+        padding: 20px;
+        border-radius: 10px;
+      }
         .header-bar {
           display: flex;
           align-items: center;
           justify-content: space-between;
           margin-bottom: 10px;
-          // padding: 10px 20px;
-          // background-color: white;
-          // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .header-left .role-dropdown {
@@ -112,6 +171,38 @@ const Header: React.FC = () => {
 
         .add-button:hover {
           background-color: #333;
+        }
+
+        .notification-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+        }
+
+        .notification-modal-content {
+          background: white;
+          padding: 20px;
+          border-radius: 10px;
+          width: 90%;
+          max-width: 500px;
+          position: relative;
+        }
+
+        .close-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: red;
+          border: none;
+          font-size: 20px;
+          cursor: pointer;
         }
       `}</style>
     </header>

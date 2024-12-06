@@ -1,40 +1,83 @@
-import React from "react";
+import React, { useRef, useCallback } from 'react';
+import ApiClient from '../../../api/client';
 
 const RecentFileScanned = () => {
-  const scans = [
-    { id: 1, name: "document.txt", date: "Jul 12th 2024", status: "Safe" },
-    { id: 2, name: "game.exe", date: "Jul 12th 2024", status: "Infected" },
-    { id: 3, name: "photo.png", date: "Jul 12th 2024", status: "Safe" },
-    { id: 4, name: "video.mp4", date: "Jul 12th 2024", status: "Safe" },
-    { id: 5, name: "archive.zip", date: "Jul 12th 2024", status: "Infected" },
-    { id: 6, name: "presentation.ppt", date: "Jul 12th 2024", status: "Safe" },
-  ];
+  const [scans, setScans] = React.useState<any[]>([]);
+  const [page, setPage] = React.useState(1);
+  const loader = useRef(null);
+
+  const fetchData = async (page: number) => {
+    const result = await fetch(
+      `http://localhost:3000/scans?limit=5&page=${page}`,
+    );
+    result.json().then((data) => {
+      setScans((prevScans) => [...prevScans, ...data]);
+      console.log(data);
+    });
+  };
+
+  React.useEffect(() => {
+    fetchData(page);
+  }, [page]);
+
+  interface Scan {
+    id: string;
+    filename: string;
+    created_at: string;
+    final_result: string;
+  }
+
+  interface ObserverEntry {
+    isIntersecting: boolean;
+  }
+
+  const handleObserver = useCallback((entries: ObserverEntry[]) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      setPage((prev) => prev + 1);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const option = {
+      root: null,
+      rootMargin: '20px',
+      threshold: 1.0,
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (loader.current) observer.observe(loader.current);
+  }, [handleObserver]);
 
   return (
     <>
-    <div className="scanning-card">
-      <h2>Recent File Scanned</h2>
-      <div className="scanning-list">
-        {scans.map((scan) => (
-          <div className="scanning-item" key={scan.id}>
-            <div className="scanning-info">
-              <div className="scanning-details">
-                <span>{scan.name}</span>
-                <small>{scan.date}</small>
+      <div className="scanning-card">
+        <h2>Recent Files</h2>
+        <div className="scanning-list">
+          {scans.map((scan) => (
+            <div className="scanning-item" key={scan.id}>
+              <div className="scanning-info">
+                <div className="scanning-details">
+                  <span>{scan.filename}</span>
+                  <small>{new Date(scan.created_at).toLocaleString()}</small>
+                </div>
+              </div>
+              <div
+                className={`scanning-status ${
+                  scan.final_result === 'Safe'
+                    ? 'status-safe'
+                    : scan.final_result === 'Infected'
+                      ? 'status-infected'
+                      : 'status-scanning'
+                }`}
+              >
+                {scan.final_result || 'Scanning'}
               </div>
             </div>
-            <div
-              className={`scanning-status ${
-                scan.status === "Safe" ? "status-safe" : "status-infected"
-              }`}
-            >
-              {scan.status}
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      <style>{`
+          ))}
+          <div ref={loader} />
+        </div>
+
+        <style>{`
         * {
           font-family: Montserrat, sans-serif;
           overflow-y: hidden;
@@ -96,7 +139,8 @@ const RecentFileScanned = () => {
         .scanning-info {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 12
+          px;
         }
         .scanning-details {
           display: flex;
@@ -114,7 +158,7 @@ const RecentFileScanned = () => {
         .scanning-status {
           display: flex;
           align-items: center;
-          font-size: 12px;
+          font-size: 10px;
           font-weight: 600;
           padding: 6px 12px;
           border-radius: 12px;
@@ -124,12 +168,16 @@ const RecentFileScanned = () => {
           color: #fff;
           background-color: #4caf50; /* Green */
         }
+        .status-scanning {
+          color: #333;
+          background-color: #f1f3f5; /* Light gray */
+        }
         .status-infected {
           color: #fff;
-          background-color: #f44336; /* Red */
+            background-color: #ffeb3b; /* Yellow */
         }
       `}</style>
-    </div>
+      </div>
     </>
   );
 };

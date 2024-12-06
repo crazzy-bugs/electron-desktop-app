@@ -1,0 +1,46 @@
+.antivirus-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.antivirus-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  transition: transform 0.2s;
+}
+
+.antivirus-card:hover {
+  transform: translateY(-5px);
+}
+
+.antivirus-card h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.antivirus-card p {
+  margin: 10px 0;
+  color: #666;
+}
+
+.antivirus-card button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.antivirus-card button:hover {
+  background-color: #0056b3;
+}

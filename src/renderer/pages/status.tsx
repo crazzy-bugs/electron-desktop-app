@@ -7,13 +7,22 @@ import BarGraph2 from '../components/StatusComponents/BarGraph2';
 export default function Status() {
   return (
     <>
-          <StatusBar />
-          <div style={{ display: "flex", gap:"10px" }}>
-            <RecentFileScanned/>
-            <BarGraph/>
-            <BarGraph2/>
-          </div>
-          <Statistics/>
-      </>
+      <StatusBar />
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <RecentFileScanned />
+        <BarGraph />
+        <span className="hide-on-medium">
+          <BarGraph2 />
+        </span>
+      </div>
+      <style>{`
+        @media (max-width: 1024px) {
+          .hide-on-medium {
+        display: none;
+          }
+        }
+      `}</style>
+      <Statistics />
+    </>
   );
 }

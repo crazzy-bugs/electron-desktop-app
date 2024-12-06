@@ -49,14 +49,14 @@ const Sidebar: React.FC = () => {
               Statistics
             </Link>
           </li>
-        
+
           <li
             className={activeSection === '/messages' ? 'active' : ''}
             onClick={() => handleClick('/messages')}
           >
-            <Link to="/messages" className="nav-item">
+            <Link to="/view-av" className="nav-item">
               <MessageSquare className="nav-icon" />
-              Messages
+              View Av
             </Link>
           </li>
           <li

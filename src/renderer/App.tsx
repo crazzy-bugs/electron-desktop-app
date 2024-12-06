@@ -1,7 +1,6 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import './styles/App.css';
 
-
 // pages
 import Status from './pages/status';
 import Quarantined from './pages/quarantined';
@@ -15,10 +14,10 @@ import Header from './components/partials/Header';
 import Test from './pages/test';
 import FullSystemScan from './pages/fullsystemscan';
 import ChatBot from './components/partials/ChatBot';
+import AddAvPage from './pages/addAv';
+import ViewAv from './pages/viewAv';
 
 export default function App() {
-
-  
   return (
     <Router>
       <div className="app-container">
@@ -29,6 +28,8 @@ export default function App() {
             <Route path="/" element={<Status />} />
             <Route path="/quarantined" element={<Quarantined />} />
             <Route path="/antivirus" element={<Antivirus />} />
+            <Route path="/add-av" element={<AddAvPage />} />
+            <Route path="/view-av" element={<ViewAv />} />
             <Route path="/support" element={<Support />} />
             <Route path="/test" element={<Test />} />
             <Route path="/startscan" element={<FullSystemScan />} />

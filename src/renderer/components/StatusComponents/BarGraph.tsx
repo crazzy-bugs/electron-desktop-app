@@ -1,38 +1,67 @@
 import React from 'react';
 
 const BarGraph: React.FC = () => {
+  const data: {
+    [key in 'Malware' | 'Phishing' | 'Ransomware' | 'Other']: number;
+  } = {
+    Malware: 10,
+    Phishing: 10,
+    Ransomware: 10,
+    Other: 70,
+  };
+
+  const colors = {
+    Malware: '#FF4500', // OrangeRed
+    Phishing: '#FF6347', // Tomato Red
+    Ransomware: '#FFD700', // Golden Yellow
+    Other: '#32CD32', // Lime Green
+  };
+
+  const total = Object.values(data).reduce((acc, value) => acc + value, 0);
+  let currentAngle = 0;
+
+  const segments = Object.keys(data).map((key) => {
+    const value = data[key as 'Malware' | 'Phishing' | 'Ransomware' | 'Other'];
+    const angle = (value / total) * 360;
+    const segment = {
+      color: colors[key as 'Malware' | 'Phishing' | 'Ransomware' | 'Other'],
+      startAngle: currentAngle,
+      endAngle: currentAngle + angle,
+    };
+    currentAngle += angle;
+    return segment;
+  });
+
   return (
     <div className="pie-chart-container">
       <div className="title">Threat Distribution by Type</div>
       <div className="pie-chart"></div>
       <div className="legend">
-        <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: 'var(--color-malware)' }}></div>
-          Malware (40%)
-        </div>
-        <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: 'var(--color-phishing)' }}></div>
-          Phishing (30%)
-        </div>
-        <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: 'var(--color-ransomware)' }}></div>
-          Ransomware (20%)
-        </div>
-        <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: 'var(--color-other)' }}></div>
-          Other (10%)
-        </div>
+        {Object.keys(data).map((key) => (
+          <div className="legend-item" key={key}>
+            <div
+              className="legend-color"
+              style={{
+                backgroundColor:
+                  colors[
+                    key as 'Malware' | 'Phishing' | 'Ransomware' | 'Other'
+                  ],
+              }}
+            ></div>
+            {key} (
+            {data[key as 'Malware' | 'Phishing' | 'Ransomware' | 'Other']}%)
+          </div>
+        ))}
       </div>
       <style>
         {`
          :root {
-   --color-malware: #FF4500; /* OrangeRed */
---color-phishing: #FF6347; /* Tomato Red */
---color-ransomware: #FFD700; /* Golden Yellow */
---color-other: #32CD32; /* Lime Green */
-
-
-
+           ${Object.keys(colors)
+             .map(
+               (key) =>
+                 `--color-${key.toLowerCase()}: ${colors[key as 'Malware' | 'Phishing' | 'Ransomware' | 'Other']};`,
+             )
+             .join('\n')}
         }
 
         .pie-chart-container {
@@ -49,10 +78,7 @@ const BarGraph: React.FC = () => {
             height: 200px;
             border-radius: 50%;
             background: conic-gradient(
-                var(--color-malware) 0deg 144deg,
-                var(--color-phishing) 144deg 252deg,
-                var(--color-ransomware) 252deg 324deg,
-                var(--color-other) 324deg 360deg
+                ${segments.map((segment) => `${segment.color} ${segment.startAngle}deg ${segment.endAngle}deg`).join(', ')}
             );
             margin: 0 auto 20px;
         }
