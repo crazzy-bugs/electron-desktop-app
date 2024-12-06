@@ -33,7 +33,7 @@ const StatusBar: React.FC = () => {
         </div>
         <div>
           <span className="status-excellent">Excellent!</span>
-          <p>You have the latest updates.</p>
+          <p>System is protected.</p>
         </div>
       </div>
       <button ref={buttonRef} className="quick-scan-btn" onClick={handleFullScanClick}>
@@ -59,7 +59,7 @@ const StatusBar: React.FC = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 16px;
+          margin-bottom: 10px;
           position: relative;
           overflow: hidden;
         }
