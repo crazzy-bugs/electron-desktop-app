@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
             </Link>
           </li>
         
-          <li
+          {/* <li
             className={activeSection === '/messages' ? 'active' : ''}
             onClick={() => handleClick('/messages')}
           >
@@ -58,8 +58,8 @@ const Sidebar: React.FC = () => {
               <MessageSquare className="nav-icon" />
               Messages
             </Link>
-          </li>
-          <li
+          </li> */}
+          {/* <li
             className={activeSection === '/transactions' ? 'active' : ''}
             onClick={() => handleClick('/transactions')}
           >
@@ -67,7 +67,7 @@ const Sidebar: React.FC = () => {
               <Mail className="nav-icon" />
               Transactions
             </Link>
-          </li>
+          </li> */}
         </ul>
       </nav>
 

@@ -34,9 +34,12 @@ export default function AntivirusStatsTable() {
                 </table>
             </div>
             <style>{`
+            *{
+            overflow-x-hidden;
+            }
                 .antivirus-stats {
                     font-family: 'Montserrat', sans-serif;
-                    width: 90%;
+                    width: 95%;
                     margin: 0 auto;
                     padding: 20px;
                     background-color: #f0f0f0;
@@ -85,6 +88,10 @@ export default function AntivirusStatsTable() {
                     background-color: #f2f2f2;
                     z-index: 1;
                 }
+                @media (max-width: 1300px) {
+                    .antivirus-stats{
+                        width: 93%;
+                    }
             `}</style>
         </div>
     );

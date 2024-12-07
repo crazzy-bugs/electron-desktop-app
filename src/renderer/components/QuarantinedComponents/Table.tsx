@@ -145,9 +145,12 @@ export default function QuarantineFilesTable() {
                 </table>
             </div>
             <style>{`
+            *{
+            overflow-x-hidden;
+            }
         .quarantine-files {
           font-family: 'Montserrat', sans-serif;
-          max-width: 1200px;
+          width: 94% ;
           margin: 0 auto;
           padding: 20px;
           background-color: #f0f0f0;

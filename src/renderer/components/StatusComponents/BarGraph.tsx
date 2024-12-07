@@ -7,29 +7,42 @@ const BarGraph: React.FC = () => {
       <div className="pie-chart"></div>
       <div className="legend">
         <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: 'var(--color-malware)' }}></div>
+          <div
+            className="legend-color"
+            style={{ backgroundColor: 'var(--color-malware)' }}
+          ></div>
           Malware (40%)
         </div>
         <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: 'var(--color-phishing)' }}></div>
+          <div
+            className="legend-color"
+            style={{ backgroundColor: 'var(--color-phishing)' }}
+          ></div>
           Phishing (30%)
         </div>
         <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: 'var(--color-ransomware)' }}></div>
+          <div
+            className="legend-color"
+            style={{ backgroundColor: 'var(--color-ransomware)' }}
+          ></div>
           Ransomware (20%)
         </div>
         <div className="legend-item">
-          <div className="legend-color" style={{ backgroundColor: 'var(--color-other)' }}></div>
+          <div
+            className="legend-color"
+            style={{ backgroundColor: 'var(--color-other)' }}
+          ></div>
           Other (10%)
         </div>
       </div>
       <style>
         {`
          :root {
-   --color-malware: #FF4500; /* OrangeRed */
---color-phishing: #FF6347; /* Tomato Red */
---color-ransomware: #FFD700; /* Golden Yellow */
---color-other: #32CD32; /* Lime Green */
+--color-malware: #DBE8D8; /* Coral */
+--color-phishing: #C8DF52; /* Tomato */
+--color-ransomware: #FEDE00; /* Amber */
+--color-other: #0a7029; /* Teal */
+
 
 
 
