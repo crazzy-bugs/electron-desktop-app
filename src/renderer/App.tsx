@@ -15,6 +15,7 @@ import Header from './components/partials/Header';
 import Test from './pages/test';
 import FullSystemScan from './pages/fullsystemscan';
 import ChatBot from './components/partials/ChatBot';
+import Settings from './components/SettingComponents/Setting';
 
 export default function App() {
 
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="/support" element={<Support />} />
             <Route path="/test" element={<Test />} />
             <Route path="/startscan" element={<FullSystemScan />} />
+            <Route path="/settings" element={<Settings />}/>
           </Routes>
           <ChatBot />
         </div>

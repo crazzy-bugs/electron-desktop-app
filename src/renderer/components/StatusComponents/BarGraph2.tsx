@@ -5,55 +5,68 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export default function EnhancedBarGraph() {
   const fileSafetyData = {
-    labels: ['Safe', 'Unsafe'],
+    labels: ['Safe Files', 'Unsafe Files'],
     datasets: [
       {
-        label: 'File Safety',
+        label: 'File Safety Status',
         data: [80, 20],
-        backgroundColor: ['linear-gradient(to bottom, #81c784, #388e3c)', 'linear-gradient(to bottom, #ef5350, #b71c1c)'], // Gradient colors
-        borderColor: ['#388E3C', '#B71C1C'],
+        backgroundColor: [
+          'rgba(129, 199, 132, 0.8)', // Green gradient
+          'rgba(239, 83, 80, 0.8)', // Red gradient
+        ],
+        hoverBackgroundColor: [
+          'rgba(76, 175, 80, 1)', // Darker green on hover
+          'rgba(244, 67, 54, 1)', // Darker red on hover
+        ],
+        borderColor: ['rgba(76, 175, 80, 1)', 'rgba(244, 67, 54, 1)'],
         borderWidth: 2,
-        borderRadius: 15, // More rounded corners
-        barThickness: 40, // Adjust bar width
+        borderRadius: 10,
+        barThickness: 50,
       },
     ],
   };
 
   const barOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
         position: 'top' as const,
         labels: {
-          color: '#444', // Slightly darker label color
+          color: '#333',
           font: {
-            size: 16, // Larger font size
-            weight: 'bold',
+            size: 14,
+            weight: 600,
           },
         },
       },
       tooltip: {
         enabled: true,
-        backgroundColor: '#222', // Darker tooltip background
+        backgroundColor: '#000',
+        titleColor: '#fff',
+        bodyColor: '#ddd',
+        cornerRadius: 8,
         titleFont: {
           size: 14,
-          weight: 'bold',
+          weight: 700,
         },
         bodyFont: {
           size: 12,
         },
-        padding: 12,
-        cornerRadius: 8,
       },
+    },
+    animation: {
+      duration: 1500, // Smooth animation for the bars
+      easing: 'easeOutBounce' as const,
     },
     scales: {
       x: {
         grid: {
-          display: false, // No gridlines on X-axis
+          display: false,
         },
         ticks: {
-          color: '#666',
+          color: '#555',
           font: {
             size: 14,
           },
@@ -61,23 +74,26 @@ export default function EnhancedBarGraph() {
       },
       y: {
         grid: {
-          drawBorder: false,
-          color: 'rgba(0, 0, 0, 0.05)', // Light gridlines
+          color: 'rgba(0, 0, 0, 0.1)',
+          display: false
         },
         ticks: {
-          color: '#666',
+          color: '#555',
           font: {
             size: 14,
           },
         },
+        beginAtZero: true, // Ensure y-axis starts at zero
       },
     },
   };
 
   return (
     <div style={styles.container}>
-      <h3 style={styles.title}>File Safety Count</h3>
-      <Bar data={fileSafetyData} options={barOptions} />
+      <h3 style={styles.title}>File Safety Overview</h3>
+      <div style={styles.chartWrapper}>
+        <Bar data={fileSafetyData} options={barOptions} />
+      </div>
     </div>
   );
 }
@@ -85,19 +101,22 @@ export default function EnhancedBarGraph() {
 const styles = {
   container: {
     width: '100%',
-    maxWidth: '500px', // Increased max width for better appearance
-    // margin: '20px auto', // Add some spacing around the container
-    backgroundColor: '#fff', // Softer background color
-    borderRadius: '12px', // More rounded container corners
-    // boxShadow: '0 8px 15px rgba(0, 0, 0, 0.15)', // Stronger shadow for emphasis
-    padding: '20px', // Increased padding for better layout
-    height: '320px'
+    maxWidth: '500px',
+    padding: '20px',
+    backgroundColor: '#fff', // Subtle light gray background
+    borderRadius: '12px',
+    boxShadow: '0 4px 10px rgba(0,0,0,0.1)', // Soft shadow for a modern look
+    height:'320px',
+    fontFamily : 'Montserrat',
   },
   title: {
-    textAlign: 'center',
-    fontSize: '20px',
-    fontWeight: 'bold',
-    marginBottom: '20px',
-    color: '#333',
+    textAlign: 'center' as const,
+    fontSize: '18px',
+    fontWeight: '600',
+    color: '#444',
+    marginBottom: '15px',
+  },
+  chartWrapper: {
+    height: '280px', // Allocate more space for the chart
   },
 };
