@@ -154,6 +154,7 @@ export default function QuarantineFilesTable() {
           margin: 0 auto;
           padding: 20px;
           background-color: #f0f0f0;
+          font-size: 14px;
         }
 
         h1 {

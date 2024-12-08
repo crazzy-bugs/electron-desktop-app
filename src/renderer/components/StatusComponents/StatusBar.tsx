@@ -87,7 +87,7 @@ const StatusBar: React.FC = () => {
           color: white;
           padding: 12px 20px;
           border: none;
-          border-radius: 4px;
+          border-radius: 10px;
           cursor: pointer;
           font-size: 14px;
         }

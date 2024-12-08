@@ -41,7 +41,7 @@ export default function Settings() {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>Configure Folder Paths</h2>
+      <h2 style={styles.title}>Settings</h2>
 
       <div style={styles.inputWrapper}>
         <label style={styles.label}>Target Folder Path</label>
@@ -88,7 +88,8 @@ export default function Settings() {
             color: "white",
             border: "none",
             cursor: "pointer",
-            transition: "background-color 0.3s ease"
+            transition: "background-color 0.3s ease",
+            width:'max-content'
           }}
         >
           Save Paths
@@ -100,19 +101,20 @@ export default function Settings() {
 
 const styles = {
   container: {
-    width: "100%",
-    maxWidth: "600px",
+    width: "94%",
+    maxWidth: "94%",
     margin: "0 auto",
     padding: "20px",
     backgroundColor: "#f9f9f9",
     borderRadius: "16px",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+    // boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
     color: "#333",
     fontFamily: "'Montserrat', sans-serif",
+    height:'400px'
   },
   title: {
-    textAlign: "center" as const,
-    fontSize: "20px",
+    textAlign: "left" as const,
+    fontSize: "24px",
     fontWeight: "bold",
     marginBottom: "20px",
     color: "#444",
@@ -128,7 +130,7 @@ const styles = {
     fontWeight:'bold',
   },
   input: {
-    width: "100%",
+    width: "97%",
     padding: "10px",
     backgroundColor: "#fff",
     border: "1px solid #ccc",

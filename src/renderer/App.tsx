@@ -1,7 +1,6 @@
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import './styles/App.css';
 
-
 // pages
 import Status from './pages/status';
 import Quarantined from './pages/quarantined';
@@ -17,10 +16,10 @@ import FullSystemScan from './pages/fullsystemscan';
 import ChatBot from './components/partials/ChatBot';
 import Settings from './components/SettingComponents/Setting';
 import Statictics from './components/StaticticsComponents/Statistics';
+// @ts-ignore
+import RecentFiles from './components/StaticticsComponents/RecentFiles';
 
 export default function App() {
-
-  
   return (
     <Router>
       <div className="app-container">
@@ -34,9 +33,12 @@ export default function App() {
             <Route path="/support" element={<Support />} />
             <Route path="/test" element={<Test />} />
             <Route path="/startscan" element={<FullSystemScan />} />
-            <Route path="/settings" element={<Settings />}/>
-            <Route path="/statistics" element={<Statictics />}/>
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/statistics" element={<RecentFiles />} />
+            {/* Route for file details in Statistics */}
+            <Route path="/statistics/:fileId" element={<Statictics />} />
           </Routes>
+
           <ChatBot />
         </div>
       </div>

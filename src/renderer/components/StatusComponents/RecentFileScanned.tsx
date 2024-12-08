@@ -1,40 +1,40 @@
-import React from "react";
+import React from 'react';
 
 const RecentFileScanned = () => {
   const scans = [
-    { id: 1, name: "document.txt", date: "Jul 12th 2024", status: "Safe" },
-    { id: 2, name: "game.exe", date: "Jul 12th 2024", status: "Infected" },
-    { id: 3, name: "photo.png", date: "Jul 12th 2024", status: "Safe" },
-    { id: 4, name: "video.mp4", date: "Jul 12th 2024", status: "Safe" },
-    { id: 5, name: "archive.zip", date: "Jul 12th 2024", status: "Infected" },
-    { id: 6, name: "presentation.ppt", date: "Jul 12th 2024", status: "Safe" },
+    { id: 1, name: 'document.txt', date: 'Jul 12th 2024', status: 'Safe' },
+    { id: 2, name: 'game.exe', date: 'Jul 12th 2024', status: 'Infected' },
+    { id: 3, name: 'photo.png', date: 'Jul 12th 2024', status: 'Safe' },
+    { id: 4, name: 'video.mp4', date: 'Jul 12th 2024', status: 'Safe' },
+    { id: 5, name: 'archive.zip', date: 'Jul 12th 2024', status: 'Infected' },
+    { id: 6, name: 'presentation.ppt', date: 'Jul 12th 2024', status: 'Safe' },
   ];
 
   return (
     <>
-    <div className="scanning-card">
-      <h2>Recent File Scanned</h2>
-      <div className="scanning-list">
-        {scans.map((scan) => (
-          <div className="scanning-item" key={scan.id}>
-            <div className="scanning-info">
-              <div className="scanning-details">
-                <span>{scan.name}</span>
-                <small>{scan.date}</small>
+      <div className="scanning-card">
+        <h2>Recent File Scanned</h2>
+        <div className="scanning-list">
+          {scans.map((scan) => (
+            <div className="scanning-item" key={scan.id}>
+              <div className="scanning-info">
+                <div className="scanning-details">
+                  <span>{scan.name}</span>
+                  <small>{scan.date}</small>
+                </div>
+              </div>
+              <div
+                className={`scanning-status ${
+                  scan.status === 'Safe' ? 'status-safe' : 'status-infected'
+                }`}
+              >
+                {scan.status}
               </div>
             </div>
-            <div
-              className={`scanning-status ${
-                scan.status === "Safe" ? "status-safe" : "status-infected"
-              }`}
-            >
-              {scan.status}
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      <style>{`
+          ))}
+        </div>
+
+        <style>{`
         * {
           font-family: Montserrat, sans-serif;
           overflow-y: hidden;
@@ -121,15 +121,15 @@ const RecentFileScanned = () => {
           text-transform: uppercase;
         }
         .status-safe {
-          color: #fff;
-          background-color: #4caf50; /* Green */
+        background-color: #e8f5e9;
+  color: #2e7d32;
         }
         .status-infected {
-          color: #fff;
-          background-color: #f44336; /* Red */
+        background-color: #ffebee;
+  color: #c62828;
         }
       `}</style>
-    </div>
+      </div>
     </>
   );
 };

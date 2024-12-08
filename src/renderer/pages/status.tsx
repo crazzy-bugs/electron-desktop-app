@@ -8,7 +8,7 @@ export default function Status() {
   return (
     <>
           <StatusBar />
-          <div style={{ display: "flex", gap:"10px" }}>
+          <div style={{ display: "flex", gap:"10px" , justifyContent:'space-evenly'}}>
             <RecentFileScanned/>
             <BarGraph/>
             <BarGraph2/>
