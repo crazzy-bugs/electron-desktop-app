@@ -18,6 +18,7 @@ import Settings from './components/SettingComponents/Setting';
 import Statictics from './components/StaticticsComponents/Statistics';
 // @ts-ignore
 import RecentFiles from './components/StaticticsComponents/RecentFiles';
+import AddAntivirus from './pages/addAntivirus';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
             <Route path="/statistics" element={<RecentFiles />} />
             {/* Route for file details in Statistics */}
             <Route path="/statistics/:fileId" element={<Statictics />} />
+            <Route path="/add-av" element={<AddAntivirus />} />
           </Routes>
 
           <ChatBot />

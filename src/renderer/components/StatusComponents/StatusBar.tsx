@@ -62,6 +62,7 @@ const StatusBar: React.FC = () => {
           margin-bottom: 10px;
           position: relative;
           overflow: hidden;
+          width: 80%;
         }
         .status-info {
           display: flex;
