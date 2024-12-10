@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
 import { Search, Bell, User, PlusCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+
   };
+
 
   return (
     <header className="header-bar">
@@ -21,10 +24,12 @@ const Header: React.FC = () => {
         <button className="icon-button">
           <Bell />
         </button>
-        <button className="add-button">
-          <PlusCircle className="add-icon" />
-          Add new Antivirus
-        </button>
+        <Link to="/add-av">
+          <button type="button" className="add-button">
+            <PlusCircle className="add-icon" />
+            Add new Antivirus
+          </button>
+        </Link>
         <div>
           <button onClick={toggleModal}>Open Modal</button>
           <Modal show={isModalOpen} onClose={toggleModal}>
@@ -115,6 +120,7 @@ const Header: React.FC = () => {
           font-size: 14px;
           cursor: pointer;
           gap: 8px;
+          text-decoration:none
         }
 
         .add-icon {
