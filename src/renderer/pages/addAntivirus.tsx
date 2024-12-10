@@ -1,193 +1,334 @@
 import React, { useState } from 'react';
-import ApiClient from '../../api/client';
-import Modal from '../components/partials/Modal';
+import { EyeIcon } from 'lucide-react';
 
-const AddAntivirus: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [cmdModalVisible, setCmdModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState<string>('');
-  const [cmdModalContent, setCmdModalContent] = useState<string>('');
+const antivirusData = {
+  'Windows Defender': {
+    avName: 'Windows Defender',
+    execCommand: 'abc',
+    updateCommand: 'xyz',
+  },
+  ESET: {
+    avName: 'ESET',
+    execCommand: 'cba',
+    updateCommand: 'zyx',
+  },
+  'Trend Micro': {
+    avName: 'Trend Micro',
+    execCommand: 'lmn',
+    updateCommand: 'pqr',
+  },
+};
 
-  const [logs, setLogs] = useState<string>('');
-  
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const data = {
-      av_name: formData.get('antivirusName'),
-      ip_address: formData.get('vmIpAddress'),
-      username: formData.get('username'),
-      password: formData.get('password'),
-      av_exec_command: formData.get('avExecutionCommand'),
-      av_update_command: formData.get('avUpdationCommand'),
-      custom_field: formData.get('customField'),
-    };
+export default function AntivirusForm() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [selectedAntivirus, setSelectedAntivirus] = useState<string | null>(
+    null,
+  );
+  const [formData, setFormData] = useState({
+    avName: '',
+    execCommand: '',
+    updateCommand: '',
+    ipAddress: '',
+    username: '',
+    password: '',
+    customField: '',
+  });
 
-    try {
-      // Simulate API call
-      // await ApiClient.addAntivirus(data); // Uncomment this when API is ready
-      setCmdModalContent(
-          `Command Execution:\n\nExecuting AV Setup for ${data.av_name}...\nIP Address: ${data.ip_address}\nUsername: ${data.username}\nStatus: Success!`
-      );
-      setCmdModalContent('Antivirus added successfully!');
-    } catch (error) {
-      console.error('Error adding antivirus:', error);
-      setCmdModalContent('Failed to add antivirus. Please try again.');
-      setCmdModalContent(
-        `Command Execution:\n\nFailed to execute setup for ${data.av_name}. Please check the logs for details.`
-      );
-    } finally {
-      setModalVisible(true); // Show confirmation modal
-      setCmdModalVisible(true); // Show command modal
+  const handleTabClick = (antivirus: string) => {
+    setSelectedAntivirus(antivirus);
+    const data = antivirusData[antivirus];
+    if (data) {
+      setFormData({
+        ...formData,
+        avName: data.avName,
+        execCommand: data.execCommand,
+        updateCommand: data.updateCommand,
+      });
     }
   };
 
-  const handleRetry = () => {
-    console.log('Retrying...');
-  }
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
-  const closeCmdModal = () => {
-    setCmdModalVisible(false);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Form Submitted:', formData);
+    alert('Form submitted successfully!');
   };
 
   return (
-    <div className="form-container">
-      <h1>Add Antivirus</h1>
-      <form onSubmit={handleSubmit}>
-        {/* Form fields */}
-        <div className="form-group">
-          <label htmlFor="antivirusName">Antivirus Name</label>
-          <input type="text" id="antivirusName" name="antivirusName" required />
-        </div>
-        <div className="form-group">
-          <label htmlFor="vmIpAddress">VM's IP Address</label>
-          <input
-            type="text"
-            id="vmIpAddress"
-            name="vmIpAddress"
-            pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input type="text" id="username" name="username" required />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <div className="password-container">
-            <input
-              type={passwordVisible ? 'text' : 'password'}
-              id="password"
-              name="password"
-              required
-            />
-            <button className='password-visibility-button' type="button" onClick={togglePasswordVisibility}>
-              {passwordVisible ? 'Hide' : 'Show'}
-            </button>
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="avExecutionCommand">AV Execution Command</label>
-          <input
-            type="text"
-            id="avExecutionCommand"
-            name="avExecutionCommand"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="avUpdationCommand">AV Updation Command (Optional)</label>
-          <input type="text" id="avUpdationCommand" name="avUpdationCommand" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="customField">Custom Field (Optional)</label>
-          <input type="text" id="customField" name="customField" />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+    <div className="antivirus-container">
+      <div className="header-tabs">
+        {Object.keys(antivirusData).map((antivirus) => (
+          <button
+            key={antivirus}
+            className={`tab-button ${selectedAntivirus === antivirus ? 'active-tab' : ''}`}
+            onClick={() => handleTabClick(antivirus)}
+          >
+            {antivirus}
+          </button>
+        ))}
+        <button className="tab-button custom-tab">
+          <span>+</span>
+          <span>Custom</span>
+        </button>
+      </div>
 
-      {/* Confirmation Modal */}
-      {/* <Modal show={modalVisible} onClose={closeModal}>
-        <p>{modalContent}</p>
-      </Modal> */}
-      {/* Command Prompt Modal */}
-      <Modal show={cmdModalVisible} onClose={closeCmdModal}>
-        <>
-        {loading ? (
-         <>
-          <h5>Command Prompt</h5>
-          <div>
-            {Number(status) !== 200 && (
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
-                <button onClick={handleRetry} style={{ marginRight: '10px' }}>Retry</button>
-                <button onClick={closeCmdModal}>OK</button>
-              </div>
-            )}
-            <p>Status : {status}</p>
-            <p>Logs : {logs}</p>
+      <div className="form-container">
+        <h1>Add Antivirus</h1>
+        <form className="av-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="avName">Antivirus Name</label>
+            <input
+              type="text"
+              id="avName"
+              name="avName"
+              value={formData.avName}
+              onChange={handleInputChange}
+              disabled
+            />
           </div>
-         </>
-          
-        ) : (
-          <pre>{cmdModalContent}</pre>
-        )}
-        </>
-      </Modal>
+
+          <div className="form-group">
+            <label htmlFor="ipAddress">VM's IP Address</label>
+            <input
+              type="text"
+              id="ipAddress"
+              name="ipAddress"
+              value={formData.ipAddress}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <div className="password-container">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+              <button
+                type="button"
+                className="show-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <EyeIcon />
+              </button>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="execCommand">AV Execution Command</label>
+            <input
+              type="text"
+              id="execCommand"
+              name="execCommand"
+              value={formData.execCommand}
+              onChange={handleInputChange}
+              disabled
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="updateCommand">
+              AV Updation Command (Optional)
+            </label>
+            <input
+              type="text"
+              id="updateCommand"
+              name="updateCommand"
+              value={formData.updateCommand}
+              onChange={handleInputChange}
+              disabled
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="customField">Custom Field (Optional)</label>
+            <input
+              type="text"
+              id="customField"
+              name="customField"
+              value={formData.customField}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+        </form>
+      </div>
 
       <style>
         {`
-          .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 30px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          }
-          h1 {
-            text-align: center;
-            color: #043927;
-          }
-          .form-group {
-            margin-bottom: 15px;
-          }
-          label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-          }
-          input {
-            width: 90%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-          }
-          button {
-            background-color: #043927;
+          .active-tab {
+            background-color: #000 !important;
             color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top:10px
           }
-          button:hover {
-            background-color: #036b4f;
-          }
+            .antivirus-container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  position: relative;
+  border-radius: 10px;
+}
+
+.header-tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius:10px;
+}
+
+.custom-tab {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-container {
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.form-container h1 {
+  color: #004d40;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.av-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #333;
+}
+
+.form-group input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.password-container {
+  display: flex;
+  gap: 10px;
+}
+
+.password-container input {
+  flex: 1;
+}
+
+.show-password {
+  padding: 8px 16px;
+  background: #004d40;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button {
+  width: fit-content;
+  padding: 8px 24px;
+  background: #004d40;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.submit-button:hover,
+.show-password:hover {
+  background: #00695c;
+}
+
+.chat-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #004d40;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-icon {
+  font-size: 20px;
+}
+
+/* Focus states */
+input:focus {
+  outline: none;
+  border-color: #004d40;
+  box-shadow: 0 0 0 2px rgba(0, 77, 64, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .antivirus-container {
+    padding: 10px;
+  }
+  
+  .header-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .custom-tab {
+    margin-left: 0;
+  }
+}
         `}
       </style>
     </div>
   );
-};
-
-export default AddAntivirus;
+}
