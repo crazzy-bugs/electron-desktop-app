@@ -1,5 +1,6 @@
 import React from 'react';
 import './RecentFiles.css';
+import { Code2Icon, EllipsisVertical, EyeIcon } from 'lucide-react';
 
 export default function RecentFiles() {
   const files = [
@@ -52,7 +53,14 @@ export default function RecentFiles() {
                 </span>
               </td>
               <td>
-                <a href={`#/statistics/${file.id}`} className="more-details-link">More</a>
+                <>
+                  <a
+                    href={`#/statistics/${file.id}`}
+                    className="more-details-link"
+                  >
+                    <EllipsisVertical />
+                  </a>
+                </>
               </td>
             </tr>
           ))}
@@ -61,4 +69,3 @@ export default function RecentFiles() {
     </div>
   );
 }
-
