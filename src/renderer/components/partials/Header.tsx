@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from './Modal';
 import { Search, Bell, User, PlusCircle } from 'lucide-react';
 
 const Header: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <header className="header-bar">
       {/* Left Section */}
       {/* Updated at 2021-10-06 15:00:00 */}
       {/* Center Section */}
-      <div className="header-center">
-       
-      </div>
+      <div className="header-center"></div>
 
       {/* Right Section */}
       <div className="header-right">
@@ -18,8 +23,15 @@ const Header: React.FC = () => {
         </button>
         <button className="add-button">
           <PlusCircle className="add-icon" />
-          Add new product
+          Add new Antivirus
         </button>
+        <div>
+          <button onClick={toggleModal}>Open Modal</button>
+          <Modal show={isModalOpen} onClose={toggleModal}>
+            <h2>Modal Title</h2>
+            <p>This is the modal content!</p>
+          </Modal>
+        </div>
       </div>
 
       {/* Styles */}

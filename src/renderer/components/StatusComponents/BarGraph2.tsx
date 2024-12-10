@@ -1,7 +1,23 @@
+import './BarGraph2.css';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 export default function EnhancedBarGraph() {
   const fileSafetyData = {
@@ -75,7 +91,7 @@ export default function EnhancedBarGraph() {
       y: {
         grid: {
           color: 'rgba(0, 0, 0, 0.1)',
-          display: false
+          display: false,
         },
         ticks: {
           color: '#555',
@@ -89,34 +105,11 @@ export default function EnhancedBarGraph() {
   };
 
   return (
-    <div style={styles.container}>
-      <h3 style={styles.title}>File Safety Overview</h3>
-      <div style={styles.chartWrapper}>
+    <div className="wrapper">
+      <h3 className="title">File Safety Overview</h3>
+      <div className="chartWrapper">
         <Bar data={fileSafetyData} options={barOptions} />
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    width: '100%',
-    maxWidth: '500px',
-    padding: '20px',
-    backgroundColor: '#fff', // Subtle light gray background
-    borderRadius: '12px',
-    boxShadow: '0 4px 10px rgba(0,0,0,0.1)', // Soft shadow for a modern look
-    height:'320px',
-    fontFamily : 'Montserrat',
-  },
-  title: {
-    textAlign: 'center' as const,
-    fontSize: '18px',
-    fontWeight: '600',
-    color: '#444',
-    marginBottom: '15px',
-  },
-  chartWrapper: {
-    height: '280px', // Allocate more space for the chart
-  },
-};

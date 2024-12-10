@@ -1,0 +1,28 @@
+.wrapper {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  height: 320px;
+  font-family: Montserrat;
+}
+
+.title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.chartWrapper {
+  height: 280px;
+}
+
+@media screen and (max-width: 1028px) {
+  .wrapper {
+    display: none;
+  }
+}
