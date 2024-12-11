@@ -37,7 +37,7 @@ const StatusBar: React.FC = () => {
         </div>
       </div>
       <button ref={buttonRef} className="quick-scan-btn" onClick={handleFullScanClick}>
-        Full Scan
+        Quick  Scan
       </button>
 
       {isAnimating && (

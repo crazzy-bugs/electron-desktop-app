@@ -1,17 +1,15 @@
-import React from 'react'
+import React from 'react';
 
 export default function ListeningSection() {
   return (
-    <div className = "container">
+    <div className="container">
       <p className="listeningText">Listening at</p>
       <h2 className="targetPath">Target folder path</h2>
       <div className="pathWrapper">
         {/* <span className="pathIcon">📁</span> */}
         <p className="pathText">C:/Users/SARTHAK/Downloads</p>
       </div>
-      <style>{
-        
-        `
+      <style>{`
         .container {
   background-color: #fff;
   border-radius: 8px;
@@ -20,7 +18,7 @@ export default function ListeningSection() {
   max-width: 400px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   height: 120px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: Montserrat, sans-serif;
 }
 
 .listeningText {
@@ -38,7 +36,7 @@ export default function ListeningSection() {
 
 .pathWrapper {
   display: flex;
-  align-items: center;
+  align-items: center;  
   background-color: #e9e9e9;
   border-radius: 4px;
   padding: 8px 12px;
@@ -59,6 +57,5 @@ export default function ListeningSection() {
 
         `}</style>
     </div>
-  )
+  );
 }
-

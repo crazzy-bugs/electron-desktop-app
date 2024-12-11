@@ -30,13 +30,7 @@ const Header: React.FC = () => {
             Add new Antivirus
           </button>
         </Link>
-        <div>
-          <button onClick={toggleModal}>Open Modal</button>
-          <Modal show={isModalOpen} onClose={toggleModal}>
-            <h2>Modal Title</h2>
-            <p>This is the modal content!</p>
-          </Modal>
-        </div>
+       
       </div>
 
       {/* Styles */}
@@ -120,7 +114,8 @@ const Header: React.FC = () => {
           font-size: 14px;
           cursor: pointer;
           gap: 8px;
-          text-decoration:none
+          text-decoration:underline;
+          text-decoration-color: #4A2328;
         }
 
         .add-icon {

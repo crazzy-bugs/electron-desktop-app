@@ -7,7 +7,7 @@ const RecentFileScanned = () => {
     { id: 3, name: 'photo.png', date: 'Jul 12th 2024', status: 'Safe' },
     { id: 4, name: 'video.mp4', date: 'Jul 12th 2024', status: 'Safe' },
     { id: 5, name: 'archive.zip', date: 'Jul 12th 2024', status: 'Infected' },
-    { id: 6, name: 'presentation.ppt', date: 'Jul 12th 2024', status: 'Safe' },
+    // { id: 6, name: 'presentation.ppt', date: 'Jul 12th 2024', status: 'Safe' },
   ];
 
   return (

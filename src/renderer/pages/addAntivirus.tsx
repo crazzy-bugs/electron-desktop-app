@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EyeIcon } from 'lucide-react';
 
 const antivirusData = {
   'Windows Defender': {
     avName: 'Windows Defender',
-    execCommand: 'abc',
-    updateCommand: 'xyz',
+    execCommand: 'MpCmdRun.exe',  
+    updateCommand: 'MpCmdRun.exe -SignatureUpdate',
   },
   ESET: {
     avName: 'ESET',
-    execCommand: 'cba',
+    execCommand: 'ABC',
     updateCommand: 'zyx',
   },
   'Trend Micro': {
@@ -21,9 +21,7 @@ const antivirusData = {
 
 export default function AntivirusForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedAntivirus, setSelectedAntivirus] = useState<string | null>(
-    null,
-  );
+  const [selectedAntivirus, setSelectedAntivirus] = useState<string>('Windows Defender');
   const [formData, setFormData] = useState({
     avName: '',
     execCommand: '',
@@ -34,9 +32,8 @@ export default function AntivirusForm() {
     customField: '',
   });
 
-  const handleTabClick = (antivirus: string) => {
-    setSelectedAntivirus(antivirus);
-    const data = antivirusData[antivirus];
+  useEffect(() => {
+    const data = antivirusData['Windows Defender'];
     if (data) {
       setFormData({
         ...formData,
@@ -44,6 +41,31 @@ export default function AntivirusForm() {
         execCommand: data.execCommand,
         updateCommand: data.updateCommand,
       });
+    }
+  }, []);
+
+  const handleTabClick = (antivirus: string) => {
+    setSelectedAntivirus(antivirus);
+    if (antivirus === 'Custom') {
+      setFormData({
+        avName: '',
+        execCommand: '',
+        updateCommand: '',
+        ipAddress: '',
+        username: '',
+        password: '',
+        customField: '',
+      });
+    } else {
+      const data = antivirusData[antivirus];
+      if (data) {
+        setFormData({
+          ...formData,
+          avName: data.avName,
+          execCommand: data.execCommand,
+          updateCommand: data.updateCommand,
+        });
+      }
     }
   };
 
@@ -73,7 +95,10 @@ export default function AntivirusForm() {
             {antivirus}
           </button>
         ))}
-        <button className="tab-button custom-tab">
+        <button
+          className={`tab-button custom-tab ${selectedAntivirus === 'Custom' ? 'active-tab' : ''}`}
+          onClick={() => handleTabClick('Custom')}
+        >
           <span>+</span>
           <span>Custom</span>
         </button>
@@ -90,7 +115,7 @@ export default function AntivirusForm() {
               name="avName"
               value={formData.avName}
               onChange={handleInputChange}
-              disabled
+              disabled={selectedAntivirus !== 'Custom'}
             />
           </div>
 
@@ -144,7 +169,7 @@ export default function AntivirusForm() {
               name="execCommand"
               value={formData.execCommand}
               onChange={handleInputChange}
-              disabled
+              disabled={selectedAntivirus !== 'Custom'}
             />
           </div>
 
@@ -158,7 +183,7 @@ export default function AntivirusForm() {
               name="updateCommand"
               value={formData.updateCommand}
               onChange={handleInputChange}
-              disabled
+              disabled={selectedAntivirus !== 'Custom'}
             />
           </div>
 
@@ -332,3 +357,27 @@ input:focus {
     </div>
   );
 }
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  try {
+    const response = await fetch('http://your-api-endpoint/ip/av/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Form Submitted:', result);
+      alert('Form submitted successfully!');
+    } else {
+      console.error('Error submitting form:', response.statusText);
+      alert('Error submitting form. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    alert('Error submitting form. Please try again.');
+  }
+};
