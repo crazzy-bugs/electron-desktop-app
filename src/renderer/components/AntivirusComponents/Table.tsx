@@ -1,44 +1,63 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 
 export default function Antivirus() {
-  const antivirusData = [
-    {
-      name: 'Windows Defender',
-      engineVersion: '4.18.2311.5',
-      lastUpdated: '2024-01-15',
-      status: 'Active',
-    },
-    {
-      name: 'Trend Micro',
-      engineVersion: '11.0.1563',
-      lastUpdated: '2024-01-14',
-      status: 'Active',
-    },
-    {
-      name: 'ESET',
-      engineVersion: '25789.1',
-      lastUpdated: '2024-01-15',
-      status: 'Active',
-    },
-    {
-      name: 'Quick Heal',
-      engineVersion: '21.3.0.5',
-      lastUpdated: '2024-01-13',
-      status: 'Active',
-    },
-    {
-      name: 'Kaspersky',
-      engineVersion: '21.3.10.25',
-      lastUpdated: '2024-01-15',
-      status: 'Active',
-    },
-    {
-      name: 'McAfee',
-      engineVersion: '10.2.3.126',
-      lastUpdated: '2024-01-14',
-      status: 'Active',
-    },
-  ];
+
+  const [avData, setAvData] = React.useState<Array<{ name: string; status: string }>>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get('http://127.0.0.1:5000/antivirus/fetch/all');
+      // console.log(result);
+      const data = result.data.records.map((item: any) => ({
+        name: item.av_name,
+        // status: item.status ? "Active" : "Inactive"
+        status: "Active"
+      }));
+      setAvData(data);
+      console.log(data)
+    };
+    fetchData();
+  }, [])
+  
+  // const antivirusData = [
+  //   {
+  //     name: 'Windows Defender',
+  //     engineVersion: '4.18.2311.5',
+  //     lastUpdated: '2024-01-15',
+  //     status: 'Active',
+  //   },
+  //   {
+  //     name: 'Trend Micro',
+  //     engineVersion: '11.0.1563',
+  //     lastUpdated: '2024-01-14',
+  //     status: 'Active',
+  //   },
+  //   {
+  //     name: 'ESET',
+  //     engineVersion: '25789.1',
+  //     lastUpdated: '2024-01-15',
+  //     status: 'Active',
+  //   },
+  //   {
+  //     name: 'Quick Heal',
+  //     engineVersion: '21.3.0.5',
+  //     lastUpdated: '2024-01-13',
+  //     status: 'Active',
+  //   },
+  //   {
+  //     name: 'Kaspersky',
+  //     engineVersion: '21.3.10.25',
+  //     lastUpdated: '2024-01-15',
+  //     status: 'Active',
+  //   },
+  //   {
+  //     name: 'McAfee',
+  //     engineVersion: '10.2.3.126',
+  //     lastUpdated: '2024-01-14',
+  //     status: 'Active',
+  //   },
+  // ];
 
   return (
     <div className="antivirus-container">
@@ -50,17 +69,17 @@ export default function Antivirus() {
       <div className="antivirus-table">
         <div className="table-header">
           <div className="column-header antivirus-name">Antivirus Name</div>
-          <div className="column-header">Engine Version</div>
-          <div className="column-header">Last Updated</div>
+          {/* <div className="column-header">Engine Version</div>
+          <div className="column-header">Last Updated</div> */}
           <div className="column-header">Status</div>
         </div>
 
         <div className="table-body">
-          {antivirusData.map((antivirus, index) => (
+          {avData && avData.map((antivirus, index) => (
             <div key={index} className="table-row">
               <div className="antivirus-name">{antivirus.name}</div>
-              <div className="engine-version">{antivirus.engineVersion}</div>
-              <div className="last-updated">{antivirus.lastUpdated}</div>
+              {/* <div className="engine-version">{antivirus.engineVersion}</div>
+              <div className="last-updated">{antivirus.lastUpdated}</div> */}
               <div className="status">
                 <span className="status-indicator"></span>
                 {antivirus.status}

@@ -1,13 +1,39 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ListeningSection() {
+  const [targetPath, setTargetPath] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTargetPath = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/target/view');
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.target_folder) {
+            setTargetPath(data.target_folder);
+          } else {
+            setTargetPath('Path not found'); // Fallback if the data is malformed
+          }
+        } else {
+          console.error('Error fetching target path:', response.statusText);
+          setTargetPath('Error loading target path');
+        }
+      } catch (error) {
+        console.error('Error fetching target path:', error);
+        setTargetPath('Error loading target path');
+      }
+    };
+
+    fetchTargetPath();
+  }, []);
   return (
     <div className="container">
       <p className="listeningText">Listening at</p>
       <h2 className="targetPath">Target folder path</h2>
       <div className="pathWrapper">
         {/* <span className="pathIcon">📁</span> */}
-        <p className="pathText">C:/Users/SARTHAK/Downloads</p>
+        <p className="pathText">{targetPath || 'Loading...'}</p>
       </div>
       <style>{`
         .container {
@@ -22,14 +48,14 @@ export default function ListeningSection() {
 }
 
 .listeningText {
-  font-size: 14px;
-  color: #6c757d;
+  font-size: 13px;
+  color: black;
   margin: 0 0 4px 0;
 }
 
 .targetPath {
-  font-size: 22px;
-  color: #28a745;
+  font-size: 18px;
+  color: black;
   margin: 0 0 16px 0;
   font-weight: 600;
 }

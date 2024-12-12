@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
+import Timer from '../partials/Timer'
 
 const StatusBar: React.FC = () => {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -36,9 +37,12 @@ const StatusBar: React.FC = () => {
           <p>System is protected.</p>
         </div>
       </div>
-      <button ref={buttonRef} className="quick-scan-btn" onClick={handleFullScanClick}>
+      <button ref={buttonRef} className="quick-scan-btn" 
+      onClick={handleFullScanClick}
+      >
         Quick  Scan
       </button>
+      
 
       {isAnimating && (
         <div

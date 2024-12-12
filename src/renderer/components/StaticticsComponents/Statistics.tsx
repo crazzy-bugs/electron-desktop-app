@@ -4,7 +4,6 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 const logoPNG = require('../../../../assets/cii-sheild.png');
 
-
 interface FileDetails {
   file_hash: string;
   file_name: string;
@@ -15,8 +14,9 @@ interface FileDetails {
   imports: string;
 }
 
-const Statistics: React.FC = () => {
-  const { fileId } = useParams<{ fileId: string }>();
+const Statistics: React.FC<{ fileId?: string }> = ({ fileId: propFileId }) => {
+  const { fileId: paramFileId } = useParams<{ fileId: string }>();
+  const fileId = propFileId || paramFileId;
   const [activeTab, setActiveTab] = useState('detection');
   const [fileDetails, setFileDetails] = useState<FileDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,8 +39,10 @@ const Statistics: React.FC = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:5000/file-details/${fileId}`,
+          `http://127.0.0.1:5000/target/latest/${fileId}`,
         );
+
+        console.log(response)
         if (!response.ok) {
           throw new Error('Failed to fetch file details');
         }
@@ -60,127 +62,127 @@ const Statistics: React.FC = () => {
     if (fileId) fetchFileDetails();
   }, [fileId]);
 
-const exportToPDF = (
-  fileDetails: any,
-  avResults: any[] = [], // Ensure avResults defaults to an empty array
-  infections: number = 0 // Default to 0 infections if undefined
-) => {
-  try {
-    const doc = new jsPDF();
-    const pageWidth = doc.internal.pageSize.width;
-    const pageHeight = doc.internal.pageSize.height;
-    let yOffset = 20;
+  const exportToPDF = (
+    fileDetails: any,
+    avResults: any[] = [], // Ensure avResults defaults to an empty array
+    infections: number = 0 // Default to 0 infections if undefined
+  ) => {
+    try {
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.width;
+      const pageHeight = doc.internal.pageSize.height;
+      let yOffset = 20;
 
-    // Set font
-    doc.setFont("helvetica");
+      // Set font
+      doc.setFont("helvetica");
 
-    // Add CII Shield Watermark
-    doc.setTextColor(230, 230, 230);
-    doc.setFontSize(60);
-    doc.text("CII SHIELD", pageWidth / 2, pageHeight / 2, {
-      align: "center",
-      angle: 45,
-    });
-    doc.setTextColor(0);
+      // Add CII Shield Watermark
+      doc.setTextColor(230, 230, 230);
+      doc.setFontSize(60);
+      doc.text("CII SHIELD", pageWidth / 2, pageHeight / 2, {
+        align: "center",
+        angle: 45,
+      });
+      doc.setTextColor(0);
 
-    // Add logo
-    doc.addImage(logoPNG, 'PNG', 10, 10, 30, 30);
+      // Add logo
+      doc.addImage(logoPNG, 'PNG', 10, 10, 30, 30);
 
-    // Header
-    doc.setFontSize(22);
-    doc.setFont("helvetica", "bold");
-    doc.text("Antivirus Scan Report", pageWidth / 2, yOffset, { align: "center" });
-    yOffset += 15;
-
-    // File Details Table
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "normal");
-    const fileDetailsData = [
-      ["File Name", fileDetails?.file_name || "N/A"],
-      ["File Hash", fileDetails?.file_hash || "N/A"],
-      ["Infections", infections.toString()],
-    ];
-    doc.autoTable({
-      startY: yOffset,
-      head: [["Property", "Value"]],
-      body: fileDetailsData,
-      theme: "grid",
-      headStyles: { fillColor: [41, 128, 185], textColor: 0 },
-      styles: { fontSize: 10 },
-      columnStyles: { 0: { cellWidth: 40 } },
-    });
-    yOffset = (doc as any).lastAutoTable.finalY + 10;
-
-    // Detection Results Table
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text("Detection Results", 10, yOffset);
-    yOffset += 10;
-
-    // Safely process avResults
-    const detectionData = (avResults || []).map((result) => [
-      result.vendor || "Unknown",
-      result.status || "Unknown",
-    ]);
-    if (detectionData.length === 0) {
-      detectionData.push(["No Data", "No Detection Results"]);
-    }
-
-    doc.autoTable({
-      startY: yOffset,
-      head: [["Vendor", "Status"]],
-      body: detectionData,
-      theme: "striped",
-      headStyles: { fillColor: [41, 128, 185], textColor: 0 },
-      styles: { fontSize: 10 },
-    });
-    yOffset = (doc as any).lastAutoTable.finalY + 10;
-
-    // File Details (Additional Information)
-    if (fileDetails) {
-      doc.setFontSize(14);
+      // Header
+      doc.setFontSize(22);
       doc.setFont("helvetica", "bold");
-      doc.text("File Details", 10, yOffset);
-      yOffset += 10;
+      doc.text("Antivirus Scan Report", pageWidth / 2, yOffset, { align: "center" });
+      yOffset += 15;
 
-      const details = [
-        { label: "Basic Details", value: fileDetails.basic_details },
-        { label: "Binary Signature", value: fileDetails.binary_signature },
-        { label: "Identified Capabilities", value: fileDetails.identified_capabilities },
-        { label: "File Properties", value: fileDetails.file_properties },
-        { label: "Imports", value: fileDetails.imports },
+      // File Details Table
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "normal");
+      const fileDetailsData = [
+        ["File Name", fileDetails?.file_name || "N/A"],
+        ["File Hash", fileDetails?.file_hash || "N/A"],
+        ["Infections", infections.toString()],
       ];
-
-      const fileDetailsTableData = details.map((detail) => [
-        detail.label,
-        detail.value || "N/A",
-      ]);
       doc.autoTable({
         startY: yOffset,
         head: [["Property", "Value"]],
-        body: fileDetailsTableData,
+        body: fileDetailsData,
         theme: "grid",
         headStyles: { fillColor: [41, 128, 185], textColor: 0 },
-        styles: { fontSize: 10, cellPadding: 2 },
-        columnStyles: { 0: { cellWidth: 40 }, 1: { cellWidth: "auto" } },
-        didDrawPage: (data) => {
-          // Footer with page numbers
-          doc.setFontSize(10);
-          doc.text(
-            "Page " + doc.internal.getNumberOfPages(),
-            data.settings.margin.left,
-            pageHeight - 10
-          );
-        },
+        styles: { fontSize: 10 },
+        columnStyles: { 0: { cellWidth: 40 } },
       });
-    }
+      yOffset = (doc as any).lastAutoTable.finalY + 10;
 
-    // Save PDF
-    doc.save("CII-Shield-Scan-Report.pdf");
-  } catch (error) {
-    console.error("Error generating PDF:", error);
-  }
-};
+      // Detection Results Table
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      doc.text("Detection Results", 10, yOffset);
+      yOffset += 10;
+
+      // Safely process avResults
+      const detectionData = (avResults || []).map((result) => [
+        result.vendor || "Unknown",
+        result.status || "Unknown",
+      ]);
+      if (detectionData.length === 0) {
+        detectionData.push(["No Data", "No Detection Results"]);
+      }
+
+      doc.autoTable({
+        startY: yOffset,
+        head: [["Vendor", "Status"]],
+        body: detectionData,
+        theme: "striped",
+        headStyles: { fillColor: [41, 128, 185], textColor: 0 },
+        styles: { fontSize: 10 },
+      });
+      yOffset = (doc as any).lastAutoTable.finalY + 10;
+
+      // File Details (Additional Information)
+      if (fileDetails) {
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.text("File Details", 10, yOffset);
+        yOffset += 10;
+
+        const details = [
+          { label: "Basic Details", value: fileDetails.basic_details },
+          { label: "Binary Signature", value: fileDetails.binary_signature },
+          { label: "Identified Capabilities", value: fileDetails.identified_capabilities },
+          { label: "File Properties", value: fileDetails.file_properties },
+          { label: "Imports", value: fileDetails.imports },
+        ];
+
+        const fileDetailsTableData = details.map((detail) => [
+          detail.label,
+          detail.value || "N/A",
+        ]);
+        doc.autoTable({
+          startY: yOffset,
+          head: [["Property", "Value"]],
+          body: fileDetailsTableData,
+          theme: "grid",
+          headStyles: { fillColor: [41, 128, 185], textColor: 0 },
+          styles: { fontSize: 10, cellPadding: 2 },
+          columnStyles: { 0: { cellWidth: 40 }, 1: { cellWidth: "auto" } },
+          didDrawPage: (data) => {
+            // Footer with page numbers
+            doc.setFontSize(10);
+            doc.text(
+              "Page " + doc.internal.getNumberOfPages(),
+              data.settings.margin.left,
+              pageHeight - 10
+            );
+          },
+        });
+      }
+
+      // Save PDF
+      doc.save("CII-Shield-Scan-Report.pdf");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
 
   return (
     <div className="card">
@@ -204,7 +206,7 @@ const exportToPDF = (
 
       {/* Export to PDF Button */}
       <div className="export-button saket">
-        <button className="export-btn" onClick={exportToPDF}>
+        <button className="export-btn" onClick={() => exportToPDF(fileDetails, avResults, infections)}>
           Export to PDF
         </button>
       </div>
@@ -392,7 +394,7 @@ const exportToPDF = (
           gap: 15px;
           margin-top: 20px;
         }
-
+        
         .vendor-item {
           background-color: #f5f5f5;
           border-radius: 4px;

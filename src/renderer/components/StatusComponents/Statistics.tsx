@@ -1,24 +1,61 @@
-const Statistics: React.FC = () => (
-    <div>
-        <div className="quick-heal-stats">
-            <h3>CII Shield Pro has saved you so far :</h3>
-            <div className="stats-grid">
-                <div className="stat-item">
-                    <div className="stat-value">911</div>
-                    <div className="stat-label">Total Threats Blocked</div>
-                </div>
-                <div className="stat-item">
-                    <div className="stat-value">0</div>
-                    <div className="stat-label">Hacking Attempts Blocked</div>
-                </div>
-                <div className="stat-item">
-                    <div className="stat-value">-</div>
-                    <div className="stat-label">Phishing Attempts Blocked</div>
-                </div>
-            </div>
-        </div>
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-        <style>{`
+interface FileScanData {
+  id: number;
+  result: string;
+}
+
+interface AntivirusData {
+  id: number;
+  avname: string;
+}
+
+const Statistics: React.FC = () => {
+  const [totalFilesScanned, setTotalFilesScanned] = useState(0);
+  const [totalThreats, setTotalThreats] = useState(0);
+  const [avSupportCount, setAvSupportCount] = useState(0);
+
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      try {
+        const fileResponse = await axios.get("http://127.0.0.1:5000/target/latest");
+        const files: FileScanData[] = Object.values(fileResponse.data);
+        setTotalFilesScanned(files[0]?.length)
+        setTotalThreats(files.filter((file) => file.result !== "S").length);
+
+        // Fetch AV support count
+        const avResponse = await axios.get("http://127.0.0.1:5000/antivirus/fetch/all");
+        setAvSupportCount(avResponse.data.total_records)
+      } catch (error) {
+        console.error("Error fetching statistics:", error);
+      }
+    };
+
+    fetchStatistics();
+  }, []);
+
+  return (
+    <div>
+      <div className="quick-heal-stats">
+        <h3>VitalCore has saved you so far :</h3>
+        <div className="stats-grid">
+          <div className="stat-item">
+            <div className="stat-value">{totalFilesScanned}</div>
+            <div className="stat-label">Total Files Scanned</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-value">{totalThreats}</div>
+            <div className="stat-label">Total Threats</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-value">{avSupportCount}</div>
+            <div className="stat-label">AV Support</div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
         .quick-heal-stats {
           border-top: 1px solid #E5E7EB;
           padding: 16px;
@@ -45,8 +82,9 @@ const Statistics: React.FC = () => (
          font-size: 14px;
           color: #6B7280;
        }
-`}</style>
+      `}</style>
     </div>
-);
+  );
+};
 
 export default Statistics;

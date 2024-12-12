@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { EyeIcon } from 'lucide-react';
-
+import Loader from '../components/partials/Loader';
 export default function AntivirusForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedAntivirus, setSelectedAntivirus] = useState<string>('');
+  const [selectedAntivirus, setSelectedAntivirus] = useState<string>('Windows Defender');
   const [formData, setFormData] = useState({
-    avName: '',
-    execCommand: '',
-    updateCommand: '',
+    avName: 'defender',
+    execCommand: `""C:\\Program Files\\Windows Defender\\MpCmdRun.exe" -Scan -ScanType 3 -File C:\\Users\\{username}\\{file}",`,
+    updateCommand: 'updateA',
     ipAddress: '',
     username: '',
     password: '',
     customField: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   // Static antivirus options
   type AntivirusOptions = {
@@ -25,19 +26,30 @@ export default function AntivirusForm() {
 
   const antivirusOptions: AntivirusOptions = {
     "Windows Defender": {
-      avName: "Windows Defender",
-      execCommand: `""C:\Program Files\Windows Defender\MpCmdRun.exe" -Scan -ScanType 3 -File C:\Users\{username}\{file}",`,
+      avName: "defender",
+      execCommand: `""C:\\Program Files\\Windows Defender\\MpCmdRun.exe" -Scan -ScanType 3 -File C:\\Users\\{username}\\{file}",`,
       updateCommand: "updateA",
     },
     "ESET": {
-      avName: "ESET",
+      avName: "eset",
       execCommand: "commandB",
       updateCommand: "updateB",
     },
     "Trend Micro": {
-      avName: "Trend Micro",
+      avName: "trendmicro",
       execCommand: "commandC",
       updateCommand: "updateC",
+    },
+    
+    "Clam AV": {
+      avName: "clamav",
+      execCommand: "clamav ''{file}'' --fdpass",
+      updateCommand: "clamav --update",
+    },
+    "AVG AV": {
+      avName: "avg",
+      execCommand: "avg scan ''{file}'' --stdout",
+      updateCommand: "avg update latest",
     },
   };
 
@@ -76,7 +88,10 @@ export default function AntivirusForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+  
     try {
+      await new Promise(resolve => setTimeout(resolve, 2000)); // 2-second delay
       const response = await fetch('http://127.0.0.1:5000/antivirus/add', {
         method: 'POST',
         headers: {
@@ -92,8 +107,7 @@ export default function AntivirusForm() {
           custom_field: formData.customField,
         }),
       });
-
-// return      console.log('Response:', response);
+       
       if (response.ok) {
         const result = await response.json();
         console.log('Form Submitted:', result);
@@ -105,6 +119,8 @@ export default function AntivirusForm() {
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Error submitting form. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -226,6 +242,7 @@ export default function AntivirusForm() {
           </button>
         </form>
       </div>
+      {isLoading && <Loader />}
       <style>
         {`
           .active-tab {
@@ -379,3 +396,4 @@ input:focus {
     </div>
   );
 }
+
